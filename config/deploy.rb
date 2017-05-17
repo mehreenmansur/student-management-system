@@ -4,7 +4,7 @@
 # Change these
 server '192.168.1.237', port: 3000, roles: [:web, :app, :db], primary: true
 
-set :repo_url,        'https://github.com/mehreenmansur/student_management_system.git'
+set :repo_url,        'https://github.com/mehreenmansur/student-management-system.git'
 set :application,     'student_management_system'
 set :user,            'mehreen'
 set :puma_threads,    [4, 16]
@@ -15,7 +15,7 @@ set :pty,             true
 set :use_sudo,        false
 set :stage,           :production
 set :deploy_via,      :remote_cache
-set :deploy_to,       "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
+set :deploy_to,       "/home/mehreen/projects/student_management_system"
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
