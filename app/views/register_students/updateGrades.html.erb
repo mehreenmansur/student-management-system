@@ -1,0 +1,36 @@
+<h1>Grade Upload</h1>
+<hr>
+<%= select_tag "semester", options_from_collection_for_select(@semesters, "id", "name"), class: "btn btn-default dropdown-toggle"%> </br></br>
+
+<table class = "table table-bordered">
+  <tr class="success">
+    <th>#</th>
+    <th>Student Name</th>
+    <th>Course</th>
+    <th>GPA</th>
+    <th>Edit</th>
+  </tr>
+  <tbody id="content">
+    <%= render "get_ajax_data" %>
+  </tbody>
+</table>
+
+<script  type="text/javascript">
+  $(document).ready(function () {
+      $(document).on('click', "select#semester", function () {
+          console.log("clicked!");
+          var semester_id  = $("select#semester").val();
+          console.log(semester_id);
+          $.ajax({
+              url : "/register_students/getAjaxData",
+              type : "get",
+              data : {semester_id: semester_id},
+              dataType: 'script',
+              success : function() {
+                  //
+              }
+          });
+      })
+  });
+</script>
+</br></br>

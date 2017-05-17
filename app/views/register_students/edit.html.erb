@@ -1,0 +1,15 @@
+<h1>Editing Student Profile</h1>
+
+<%= form_for :student_registration, url: register_student_path(@student_registration), method: :patch do |sr| %>
+    <p>
+      <%= sr.label :GPA %><br>
+      <%= sr.text_field :gpa %>
+    </p>
+
+    <p>
+      <%= sr.submit %>
+    </p>
+
+<% end %>
+
+<%= link_to 'Back', students_path %>

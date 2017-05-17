@@ -1,0 +1,17 @@
+<h2>Offered Courses</h2>
+<table class = "table table-bordered" >
+  <% @hash.each do |key, values| %>
+  <tr class="success">
+    <th><%= key %></th>
+    <th>Course</th>
+  </tr>
+      <% y = 1 %>
+      <% values.each do |v| %>
+      <tr>
+        <td>#<%= y %></td>
+        <td><%= v %></td>
+        <% y+=1 %>
+      </tr>
+    <% end %>
+  <% end %>
+</table>

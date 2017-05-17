@@ -1,0 +1,18 @@
+<h1>Editing Semesters</h1>
+
+<%= form_for :semester, url: semester_path(@semester), method: :patch do |f| %>
+
+    <p>
+      <%= f.label :semester_name %><br>
+      <%= f.text_field :name %><br><br>
+      <%= f.label :stauts %><br>
+      <%= f.text_field :status %>
+    </p>
+
+    <p>
+      <%= f.submit %>
+    </p>
+
+<% end %>
+
+<%= link_to 'Back', students_path %>

@@ -1,0 +1,8 @@
+<%= count = 1 %>
+<% @semester_courses.each do |sc| %>
+    <tr>
+      <td><%= "Course# "%><%= count %></td>
+      <td><%= sc.course.name %></td>
+      <%= count = count +1 %>
+    </tr>
+<% end %>

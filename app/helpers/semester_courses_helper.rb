@@ -1,0 +1,2 @@
+module SemesterCoursesHelper
+end

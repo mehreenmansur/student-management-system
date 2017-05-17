@@ -1,0 +1,47 @@
+</br>
+<div class="col-sm-5">
+  <%= image_tag @student.image.thumb.url, width: "200", height: "150"%>
+  </br>
+  </br>
+  <p>
+    <strong>Name:</strong>
+    <%= @student.name %>
+  </p>
+</div>
+<!--<div align="center">-->
+<div class="col-sm-3">
+  <p>Search Semester</p>
+  <%= search_field_tag 'search'%>
+  <div class="list-group" id="content"></div>
+  <table class = "table table-striped">
+    <tbody id="tably">
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on('keyup', "#search", function () {
+            console.log("clicked!!!");
+            var user_input  = $("#search").val();
+            console.log(user_input);
+            if (user_input==""){
+              console.log(user_input);
+                $("#content").empty();
+                $("#tably").empty();
+            }
+            $.ajax({
+                url : "/students/getUserInput",
+                type : "get",
+                data : {user_input: user_input},
+                dataType: 'script',
+                success : function() {
+                    //
+                }
+            });
+        })
+    });
+</script>
+
+<td><%= link_to 'Download CV', save_register_students_path( :format => :pdf) , :format => :pdf %></td></br>
+<td><%= link_to 'Preview CV', save_register_students_path %></td>

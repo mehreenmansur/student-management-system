@@ -1,0 +1,27 @@
+<h1>Result by Semester</h1>
+<hr>
+<table class = "table table-bordered" >
+  <% count = 0 %>
+  <% @hash.each do |key, values| %>
+      <tr class="info">
+        <th ><%="Semester :  " + key %></th>
+        <th>Course</th>
+        <th>Grade</th>
+      </tr>
+      <% values.each do |v| %>
+          <tr>
+            <td><%= count+1%></td>
+            <td><%= v %></td>
+            <td><%= @result[count] %></td>
+            <% count = count+1 %>
+          </tr>
+      <% end %>
+  <% end %>
+  <tr class="alert-success">
+    <th>CGPA</th>
+    <th></th>
+    <th><%= @cgpa %></th>
+  </tr>
+</table>
+
+

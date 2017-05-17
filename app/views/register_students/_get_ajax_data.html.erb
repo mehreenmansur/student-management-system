@@ -1,0 +1,11 @@
+<% count = 1 %>
+<% @student_registrations.each do |sr| %>
+    <tr>
+      <td><%= count %></td>
+      <td><%= sr.student.name %></td>
+      <td><%= sr.course.name %></td>
+      <td><%= sr.gpa.present? ? sr.gpa : '-'  %></td>
+      <td><%= link_to '', edit_register_students_path(:id => sr.id) , class: "glyphicon glyphicon-edit" %></td>
+    </tr>
+    <% count = count + 1 %>
+<% end %>

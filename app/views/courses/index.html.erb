@@ -1,0 +1,11 @@
+<h2>Add Courses to Semesters</h2>
+<hr class="bigHr">
+<%= form_tag( '/semester_courses/addCourseToSemester', :method => :get )   do |f| %>
+    <%= select_tag :semester, options_for_select(@semesters.collect { |s| s.name }) ,class: "btn btn-default dropdown-toggle" %>
+  </br></br>
+    <%= select_tag :course, options_for_select(@arr.collect { |a| a }) ,class: "btn btn-default dropdown-toggle" %>
+  </br></br></br>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Save</button>
+    </div>
+<% end %>

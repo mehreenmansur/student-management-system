@@ -1,0 +1,17 @@
+$('.delete_course').bind('ajax:success', function() {
+    $(this).closest('tr').fadeOut();
+});
+//
+//$("").click ->
+//    $.ajax({
+//        type: "POST",
+//        url: "/",
+//        data: {},
+//        success: (data) ->
+////            alert data.id
+//        return false
+//
+//        })
+
+
+$("li#<%= @semester_course.id %>").slideUp();

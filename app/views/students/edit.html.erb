@@ -1,0 +1,25 @@
+<h1>Editing Student Profile</h1>
+<hr>
+<div class="form-horizontal">
+  <%= form_for :student, url: student_path(@student), method: :patch do |f| %>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="student_name" name="student[name]" placeholder=<%= f.text_field :name %></input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Image</label>
+      <div class="col-sm-10">
+        <%= f.file_field :image %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Update Profile</button>
+      </div>
+    </div>
+
+  <% end %>
+</div>

@@ -1,0 +1,14 @@
+
+  <h1>Semester Courses not taken</h1>
+
+<ul>
+  <button>Test</button>
+  <% @courses.each do |course| %>
+      <li>
+      <%= link_to 'Delete', course, method: :delete, data: {confirm: 'sure?'}, :remote => true, :class => 'delete_course' %>
+
+
+      </li>
+    <% end %>
+
+</ul>

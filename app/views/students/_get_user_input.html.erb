@@ -1,0 +1,23 @@
+<% @semesters.each do |sem| %>
+  <button data-id="<%= sem.id %>" id="table" type="button" class="list-group-item" ><%= sem.name %></button>
+<% end %>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('click', "#table", function () {
+            var sem_id = $(this).attr("data-id");
+            console.log("Oh" + sem_id);
+            $.ajax({
+                url : "/students/getSearchOutput",
+                type : "get",
+                data : {semester_id: sem_id},
+                dataType: 'script',
+                success : function() {
+                    //
+                }
+            });
+
+        })
+    });
+</script>
+

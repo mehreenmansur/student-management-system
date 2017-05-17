@@ -1,0 +1,17 @@
+<h2>Registration for <%= @semester[0].name %></h2>
+<hr>
+<% index =0 %>
+<%= form_tag('/register_students/registerCourse', :method => 'get') do %>
+    <% @array.each do |arr| %>
+        <% if (@student_registrations.exists?(course_id: @course_ids[index])) %>
+            <%= check_box_tag 'arrs[]', arr, true %>
+        <% else %>
+            <%= check_box_tag 'arrs[]', arr %>
+        <% end %>
+        <% index += 1 %>
+        <%= arr %></br>
+    <% end %>
+    </br>
+    <button type="submit" class="btn btn-default">Register</button>
+<% end %>
+

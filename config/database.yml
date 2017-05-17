@@ -1,0 +1,38 @@
+#default: &default
+#  adapter: mysql2
+#  encoding: utf8
+#  pool: 5
+#  username: root
+#  password: root
+#  socket: /var/run/mysqld/mysqld.sock
+#
+#development:
+#  <<: *default
+#  database: articleDb
+#
+#test:
+#  <<: *default
+#  database: db/test.mysql2
+#
+#production:
+#  <<: *default
+#  database: db/production.mysql2
+default: &default
+  adapter: mysql2
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  encoding: utf8
+  database: studentManagementDb
+  username: root
+  password: root
+
+test:
+  <<: *default
+  database:
+
+production:
+  <<: *default
+  database:
