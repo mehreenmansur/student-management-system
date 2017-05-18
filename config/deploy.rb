@@ -2,10 +2,10 @@
 # lock "3.8.1"
 
 # Change these
-server '192.168.1.237', port: 3000, roles: [:web, :app, :db], primary: true
+server '192.168.1.109', port: 3000, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'https://github.com/mehreenmansur/student-management-system.git'
-set :application,     'student_management_system'
+set :application,     'sms'
 set :user,            'mehreen'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
