@@ -30,7 +30,7 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord
 
 # Change these
-server '192.168.1.109', user: 'mehreenvm', roles: [:web, :app, :db], primary: true
+server '192.168.1.212', user: 'mehreenvm', roles: [:web, :app, :db], primary: true
 set :ssh_options,     { forward_agent: false, user: 'mehreenvm', keys: %w(~/.ssh/id_rsa.pub) }
 ## Defaults:
 # set :scm,           :git
