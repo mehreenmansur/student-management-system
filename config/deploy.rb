@@ -3,12 +3,13 @@ lock "3.8.1"
 
 set :repo_url,        'https://github.com/mehreenmansur/student-management-system.git'
 set :application,     'sms'
-set :user,            'mehreen'
+set :user,            'mehreenvm'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
 set :rbenv_type, :system
+
 set :rbenv_ruby, '2.4.0'
-set :rbenv_path, '/home/mehreen/.rbenv/bin/rbenv'
+set :rbenv_path, '/home/mehreenvm/.rbenv/bin/rbenv'
 set :rbenv_prefix,
     "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
 set :rbenv_map_bins, %w(rake gem bundle ruby rails)
@@ -18,7 +19,7 @@ set :pty,             true
 set :use_sudo,        false
 set :stage,           :production
 set :deploy_via,      :remote_cache
-set :deploy_to,       "/home/mehreen/apps/sms"
+set :deploy_to,       "/home/mehreenvm/apps/sms"
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
@@ -29,8 +30,8 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord
 
 # Change these
-server '192.168.1.109', user: 'mehreen', roles: [:web, :app, :db], primary: true
-set :ssh_options,     { forward_agent: false, user: 'mehreen', keys: %w(~/.ssh/id_rsa.pub) }
+server '192.168.1.109', user: 'mehreenvm', roles: [:web, :app, :db], primary: true
+set :ssh_options,     { forward_agent: false, user: 'mehreenvm', keys: %w(~/.ssh/id_rsa.pub) }
 ## Defaults:
 # set :scm,           :git
 # set :branch,        :master
