@@ -1,93 +1,76 @@
-# config valid only for current version of Capistrano
-lock "3.8.1"
+#
+# bundle exec cap staging deploy:setup_config
+# bundle exec cap staging deploy
+#
 
-set :repo_url,        'https://github.com/mehreenmansur/student-management-system.git'
-set :application,     'sms'
-set :user,            'mehreenvm'
-set :puma_threads,    [4, 16]
-set :puma_workers,    0
+lock '3.8.1'
+
+set :application, 'sms'
+set :repo_url, 'https://github.com/mehreenmansur/student-management-system.git'
+set :deploy_user, 'mehreenvm'
+set :pty, true
+
 set :rbenv_type, :system
-
 set :rbenv_ruby, '2.4.0'
 set :rbenv_path, '/home/mehreenvm/.rbenv'
 set :rbenv_prefix,
     "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
 set :rbenv_map_bins, %w(rake gem bundle ruby rails)
 
-# Don't change these unless you know what you're doing
-set :pty,             true
-set :use_sudo,        false
-set :stage,           :production
-set :deploy_via,      :remote_cache
-set :deploy_to,       "/home/mehreenvm/apps/sms"
-set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
-set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
-set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
-set :puma_access_log, "#{release_path}/log/puma.error.log"
-set :puma_error_log,  "#{release_path}/log/puma.access.log"
-set :puma_preload_app, true
-set :puma_worker_timeout, nil
-set :puma_init_active_record, true  # Change to false when not using ActiveRecord
+set :keep_releases, 5
 
-# Change these
-server '192.168.1.212', user: 'mehreenvm', roles: [:web, :app, :db], primary: true
-set :ssh_options,     { forward_agent: false, user: 'mehreenvm', keys: %w(~/.ssh/id_rsa.pub) }
-## Defaults:
-# set :scm,           :git
-# set :branch,        :master
-# set :format,        :pretty
-# set :log_level,     :debug
-# set :keep_releases, 5
+set :bundle_binstubs, nil
 
-## Linked Files & Directories (Default None):
-# set :linked_files, %w{config/database.yml}
-# set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_files, %w(config/application.yml config/database.yml config/secrets.yml)
 
-namespace :puma do
-  desc 'Create Directories for Puma Pids and Socket'
-  task :make_dirs do
-    on roles(:app) do
-      execute "mkdir #{shared_path}/tmp/sockets -p"
-      execute "mkdir #{shared_path}/tmp/pids -p"
-    end
-  end
+set(
+    :linked_dirs,
+    %w(log tmp/pids tmp/states tmp/sockets tmp/cache vendor/bundle public/system)
+)
 
-  before :start, :make_dirs
-end
+# which config files should be copied by deploy:setup_config
+# see documentation in lib/capistrano/tasks/setup_config.cap
+# for details of operations
+set(
+    :config_files,
+    %w(
+    nginx.conf
+    application.yml.template
+    database.yml.template
+    secrets.yml.template
+    log_rotation
+    puma.rb
+    puma_init.sh
+  )
+)
+
+set(:executable_config_files, %w(puma_init.sh))
+
+set(
+    :symlinks,
+    [
+        {
+            source: 'nginx.conf',
+            link: '/etc/nginx/sites-enabled/{{full_app_name}}.conf'
+        },
+        {
+            source: 'puma_init.sh',
+            link: '/etc/init.d/puma_{{full_app_name}}'
+        },
+        {
+            source: 'log_rotation',
+            link: '/etc/logrotate.d/{{full_app_name}}'
+        }
+    ]
+)
 
 namespace :deploy do
-  desc "Make sure local git is in sync with remote."
-  task :check_revision do
-    on roles(:app) do
-      unless `git rev-parse HEAD` == `git rev-parse origin/master`
-        puts "WARNING: HEAD is not the same as origin/master"
-        puts "Run `git push` to sync changes."
-        exit
-      end
-    end
-  end
-
-  desc 'Initial Deploy'
-  task :initial do
-    on roles(:app) do
-      before 'deploy:restart', 'puma:start'
-      invoke 'deploy'
-    end
-  end
-
-  desc 'Restart application'
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      invoke 'puma:restart'
-    end
-  end
-
-  before :starting,     :check_revision
-  after  :finishing,    :compile_assets
-  after  :finishing,    :cleanup
-  after  :finishing,    :restart
+  before :deploy, 'deploy:check_revision'
+  # before :deploy, "deploy:run_tests"
+  # after 'deploy:symlink:shared', 'deploy:compile_assets_locally'
+  after :finishing, 'deploy:cleanup'
+  before 'deploy:setup_config', 'nginx:remove_default_vhost'
+  after 'deploy:setup_config', 'nginx:reload'
+  # after 'deploy:setup_config', 'monit:restart'
+  after 'deploy:publishing', 'deploy:restart'
 end
-
-# ps aux | grep puma    # Get puma pid
-# kill -s SIGUSR2 pid   # Restart puma
-# kill -s SIGTERM pid   # Stop puma
